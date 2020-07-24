@@ -1,7 +1,6 @@
 part of '../local_file.dart';
 
 class _FileManager {
-  final String fileName = "fireball.json";
   static _FileManager _instance;
   _FileManager._init();
 
@@ -11,6 +10,8 @@ class _FileManager {
     }
     return _instance;
   }
+
+  final String fileName = "fireball.json";
 
   Future<Directory> documentsPath() async {
     String tempPath = (await getApplicationDocumentsDirectory())?.path;
@@ -51,14 +52,13 @@ class _FileManager {
     var newLocalData = jsonEncode(model);
 
     File userDocumentFile = File(_filePath);
-    return await userDocumentFile.writeAsString(newLocalData,
-        flush: true, mode: FileMode.write);
+    return await userDocumentFile.writeAsString(newLocalData, flush: true, mode: FileMode.write);
   }
 
   Future<String> readOnlyKeyData(String key) async {
     Map datas = await fileReadAllData();
     if (datas != null && datas[key] != null) {
-      final model = datas[key] ?? {};
+      final model = datas[key];
       final item = BaseLocal.fromJson(model);
       if (DateTime.now().isBefore(item.time)) {
         return item.model;
@@ -74,8 +74,7 @@ class _FileManager {
   Future removeSingleItem(String key) async {
     Map<String, Object> tempDirectory = await fileReadAllData();
     final _key = tempDirectory.keys.length > 0
-        ? tempDirectory.keys
-            .singleWhere((element) => element == key, orElse: () => null)
+        ? tempDirectory.keys.singleWhere((element) => element == key, orElse: () => null)
         : "";
     tempDirectory.remove(_key);
     String _filePath = await filePath();

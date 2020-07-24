@@ -60,4 +60,6 @@ class NetworkManager {
     final data = await fileManager.getUserRequestDataOnString(url);
     return data;
   }
+
+  void _x(args) {}
 }

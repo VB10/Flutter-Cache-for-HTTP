@@ -9,6 +9,8 @@ class _LocalManager {
   }
 
   static _LocalManager _instance;
+  _LocalManager._init();
+
   SharedPreferences _preferences;
   Future<SharedPreferences> get preferences async {
     if (_preferences == null) {
@@ -16,8 +18,6 @@ class _LocalManager {
     }
     return _preferences;
   }
-
-  _LocalManager._init();
 
   Future<bool> writeModelInJson(dynamic body, String url, Duration duration) async {
     final _pref = await preferences;
